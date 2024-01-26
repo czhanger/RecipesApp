@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+<h1 class="mb-3">Grocery List</h1>
+<p clas="mb-3">
+  Items you add to your grocery list are displayed here! <br />
+  You can delete individual items from the list or clear the list entirely using
+  the appropriate buttons <br />
+  <strong
+    >WARNING: All ingredients you add will only be saved for your current
+    session.</strong
+  >
+  <br />
+  <a href="/recipes">All Recipes</a>
+</p>
+<div class="row row-cols-1 row-cols-md-4 mt-3">
+  <% for (let recipe of groceryList) {%>
+  <div class="col mb-3">
+    <div class="card h-100">
+      <div class="card-header">
+        <%= recipe.title %>
+        <form
+          class="d-inline"
+          action="/groceries/<%= recipe._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-outline-secondary float-right">Delete</button>
+        </form>
+      </div>
+      <div class="card-body">
+        <ul>
+          <% for (let ingred of recipe.ingredients) {%>
+          <li><%= ingred %></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <% } %> <% if(groceryList.length > 0) {%>
+  <form class="d-inline" action="/groceries?_method=DELETE" method="POST">
+    <p>
+      <button class="btn btn-danger">Clear List</button>
+    </p>
+  </form>
+  <% } %>
+</div>
